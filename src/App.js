@@ -387,7 +387,7 @@ function Navbar({ scrolled, navigate, menuOpen, setMenuOpen, cartCount, wishCoun
           <button className="icon-btn" style={{ color: P.cream }} onClick={() => setMenuOpen(false)} aria-label="Close menu"><X size={22} strokeWidth={1.6} /></button>
         </div>
         {NAV_LINKS.map((l, i) => (
-          <a key={l.label} onClick={() => { navigate(l.to); setMenuOpen(false); }}><span className="mobile-menu-idx">0{i + 1}</span>{l.label}</a>
+          <a key={l.label} href="" onClick={() => { navigate(l.to); setMenuOpen(false); }}><span className="mobile-menu-idx">0{i + 1}</span>{l.label}</a>
         ))}
         <a onClick={() => { navigate("cart"); setMenuOpen(false); }}><span className="mobile-menu-idx">0{NAV_LINKS.length + 1}</span>Bag ({cartCount})</a>
         <a onClick={() => { navigate("wishlist"); setMenuOpen(false); }}><span className="mobile-menu-idx">0{NAV_LINKS.length + 2}</span>Wishlist ({wishCount})</a>
