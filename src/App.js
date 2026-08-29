@@ -1208,7 +1208,12 @@ export default function App() {
         .wish-btn:hover { transform: scale(1.12); }
         .product-overlay { position: absolute; left: 0; right: 0; bottom: 0; display: flex; transform: translateY(100%); transition: transform .35s cubic-bezier(.19,1,.22,1); z-index: 2; }
         .product-card:hover .product-overlay { transform: translateY(0); }
-        @media (hover: none) { .product-overlay { transform: translateY(0); } }
+        @media (max-width: 699px) {
+          .product-img { overflow: visible; margin-bottom: 0.5rem; }
+          .product-overlay { position: static; transform: none !important; transition: none; margin-top: 0; border-top: 1px solid rgba(27,24,21,0.12); }
+          .quick-add { font-size: 0.6rem; padding: 0.55rem 0.4rem; }
+          .quick-view { width: 36px; }
+        }
         .quick-add { flex: 1; background: ${P.ink}; color: ${P.cream}; border: none; padding: 0.65rem 0.6rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 0.35rem; transition: background .25s; }
         .quick-add:hover { background: ${P.rani}; }
         .quick-view { background: ${P.saffron}; color: ${P.ink}; border: none; width: 40px; display: flex; align-items: center; justify-content: center; border-left: 1px solid rgba(27,24,21,0.15); }
