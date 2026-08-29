@@ -387,10 +387,10 @@ function Navbar({ scrolled, navigate, menuOpen, setMenuOpen, cartCount, wishCoun
           <button className="icon-btn" style={{ color: P.cream }} onClick={() => setMenuOpen(false)} aria-label="Close menu"><X size={22} strokeWidth={1.6} /></button>
         </div>
         {NAV_LINKS.map((l, i) => (
-          <a key={l.label} href="" onClick={() => { navigate(l.to); setMenuOpen(false); }}><span className="mobile-menu-idx">0{i + 1}</span>{l.label}</a>
+          <button key={l.label}  onClick={() => { navigate(l.to); setMenuOpen(false); }}><span className="mobile-menu-idx">0{i + 1}</span>{l.label}</button>
         ))}
-        <a onClick={() => { navigate("cart"); setMenuOpen(false); }}><span className="mobile-menu-idx">0{NAV_LINKS.length + 1}</span>Bag ({cartCount})</a>
-        <a onClick={() => { navigate("wishlist"); setMenuOpen(false); }}><span className="mobile-menu-idx">0{NAV_LINKS.length + 2}</span>Wishlist ({wishCount})</a>
+        <button onClick={() => { navigate("cart"); setMenuOpen(false); }}><span className="mobile-menu-idx">0{NAV_LINKS.length + 1}</span>Bag ({cartCount})</button>
+        <button onClick={() => { navigate("wishlist"); setMenuOpen(false); }}><span className="mobile-menu-idx">0{NAV_LINKS.length + 2}</span>Wishlist ({wishCount})</button>
       </div>
     </>
   );
@@ -412,27 +412,27 @@ function Footer({ navigate }) {
         <div>
           <div className="footer-heading">Shop</div>
           <div className="footer-links">
-            <a onClick={() => navigate("shop")}>New In</a>
-            <a onClick={() => navigate("bridal")}>Bridal Couture</a>
-            <a onClick={() => navigate("shop")}>Festive Formals</a>
-            <a onClick={() => navigate("shop")}>Lawn</a>
+            <button onClick={() => navigate("shop")}>New In</button>
+            <button onClick={() => navigate("bridal")}>Bridal Couture</button>
+            <button onClick={() => navigate("shop")}>Festive Formals</button>
+            <button onClick={() => navigate("shop")}>Lawn</button>
           </div>
         </div>
         <div>
           <div className="footer-heading">Help</div>
           <div className="footer-links">
-            <a onClick={() => navigate("cart")}>Track order</a>
-            <a onClick={() => navigate("contact")}>Shipping info</a>
-            <a onClick={() => navigate("contact")}>Exchanges</a>
-            <a onClick={() => navigate("contact")}>Contact us</a>
+            <button onClick={() => navigate("cart")}>Track order</button>
+            <button onClick={() => navigate("contact")}>Shipping info</button>
+            <button onClick={() => navigate("contact")}>Exchanges</button>
+            <button onClick={() => navigate("contact")}>Contact us</button>
           </div>
         </div>
         <div>
           <div className="footer-heading">Studio</div>
           <div className="footer-links">
-            <a onClick={() => navigate("about")}>Our story</a>
-            <a onClick={() => navigate("about")}>Craftsmanship</a>
-            <a onClick={() => navigate("contact")}>Careers</a>
+            <button onClick={() => navigate("about")}>Our story</button>
+            <button onClick={() => navigate("about")}>Craftsmanship</button>
+            <button onClick={() => navigate("contact")}>Careers</button>
           </div>
         </div>
       </div>
