@@ -1400,8 +1400,8 @@ export default function App() {
         .footer-social a:hover { color: ${P.saffron}; }
         .footer-heading { color: ${P.cream}; font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.1rem; font-weight: 500; }
         .footer-links { display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.85rem; }
-        .footer-links a { color: inherit; text-decoration: none; }
-        .footer-links a:hover { color: ${P.saffron}; }
+        .footer-links a, .footer-links button { color: inherit; text-decoration: none; background: none; border: none; padding: 0; margin: 0; font: inherit; text-align: left; width: fit-content; transition: color .2s; }
+        .footer-links a:hover, .footer-links button:hover { color: ${P.saffron}; }
         .footer-bottom { max-width: 1320px; margin: 0 auto; padding-top: 1.6rem; display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: rgba(246,241,230,0.45); }
 
         /* ---------- page banner ---------- */
