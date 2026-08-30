@@ -195,13 +195,21 @@ function fmt(n) {
 
 // Renders a real product photo when one loads; falls back to a woven-texture
 // swatch in the product's assigned thread colour if the file is missing.
-function Media({ src, alt, color, className = "", fit = "cover", children }) {
+function Media({ src, alt, color, className = "", fit = "cover", children, priority = false }) {
   const [broken, setBroken] = useState(false);
   const show = Boolean(src) && !broken;
   return (
     <div className={className} style={{ background: `linear-gradient(150deg, ${color} 0%, ${P.ink} 130%)` }}>
       {show && (
-        <img src={src} alt={alt} className="media-photo" style={{ objectFit: fit }} loading="lazy" onError={() => setBroken(true)} />
+        <img
+          src={src}
+          alt={alt}
+          className="media-photo"
+          style={{ objectFit: fit }}
+          loading={priority ? "eager" : "lazy"}
+          fetchpriority={priority ? "high" : "auto"}
+          onError={() => setBroken(true)}
+        />
       )}
       {!show && <div className="swatch-weave" aria-hidden="true" />}
       {children}
