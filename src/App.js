@@ -1209,7 +1209,7 @@ export default function App() {
         .stitch-mark-dot.is-visible { opacity: 1; }
 
         /* ---------- media / fallback swatch ---------- */
-        .media-photo { width: 100%; height: auto; display: block; }
+        .media-photo { width: 100%; height: 100%; display: block; }
         .swatch-weave { display: none; }
 
         /* ---------- hero ---------- */
