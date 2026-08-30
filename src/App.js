@@ -1433,28 +1433,29 @@ export default function App() {
         .pd-crumb-inner { max-width: 1320px; margin: 0 auto; padding: 0 1.75rem; }
         .pd-inner { max-width: 1320px; margin: 0 auto; padding: 2.2rem 1.75rem 5.5rem; display: grid; grid-template-columns: 1fr; gap: 2.6rem; }
         @media (min-width: 900px) { .pd-inner { grid-template-columns: 1fr 1fr; } }
-        .pd-gallery { display: flex; flex-direction: column; gap: 0.7rem; }
+        .pd-gallery { display: flex; flex-direction: column; gap: 0.7rem; min-width: 0; }
         .pd-main-img { position: relative; height: 440px; overflow: hidden; border: 1px solid ${P.line}; }
         @media (min-width: 780px) { .pd-main-img { height: 560px; } }
-        .pd-thumbs { display: flex; gap: 0.6rem; }
-        .pd-thumb { width: 64px; height: 64px; overflow: hidden; border: 1px solid ${P.line}; padding: 0; background: none; transition: border-color .25s; }
+        .pd-thumbs { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+        .pd-thumb { width: 64px; height: 64px; overflow: hidden; border: 1px solid ${P.line}; padding: 0; background: none; transition: border-color .25s; flex-shrink: 0; }
         .pd-thumb.active { border-color: ${P.ink}; border-width: 2px; }
         .pd-thumb-media { width: 100%; height: 100%; }
+        .pd-info { min-width: 0; }
         .pd-cat { color: ${P.rani}; text-transform: uppercase; letter-spacing: 0.1em; font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; font-weight: 500; margin-bottom: 0.7rem; }
         .pd-title { font-family: 'Bodoni Moda', serif; font-size: 2rem; margin-bottom: 0.6rem; line-height: 1.15; }
         .pd-rating { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 1rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: ${P.ink2}; opacity: 0.7; }
         .pd-price { font-family: 'Bodoni Moda', serif; font-size: 1.7rem; color: ${P.ink}; font-weight: 500; margin-bottom: 1.5rem; }
         .pd-desc { color: ${P.ink2}; opacity: 0.8; line-height: 1.75; font-size: 0.9rem; margin-bottom: 1.7rem; max-width: 480px; }
         .pd-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; color: ${P.ink2}; opacity: 0.6; margin-bottom: 0.6rem; }
-        .size-row { display: flex; gap: 0.55rem; margin-bottom: 1.7rem; }
-        .size-pill { width: 42px; height: 42px; border: 1px solid ${P.lineStrong}; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; background: none; transition: all .25s; }
+        .size-row { display: flex; gap: 0.55rem; margin-bottom: 1.7rem; flex-wrap: wrap; }
+        .size-pill { width: 42px; height: 42px; border: 1px solid ${P.lineStrong}; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; background: none; transition: all .25s; flex-shrink: 0; }
         .size-pill.active { background: ${P.ink}; color: ${P.cream}; border-color: ${P.ink}; }
-        .qty-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.7rem; }
-        .qty-stepper { display: flex; align-items: center; border: 1px solid ${P.lineStrong}; }
+        .qty-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.7rem; flex-wrap: wrap; }
+        .qty-stepper { display: flex; align-items: center; border: 1px solid ${P.lineStrong}; flex-shrink: 0; }
         .qty-btn { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; background: none; border: none; }
         .qty-val { width: 32px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 0.8rem; }
-        .pd-actions { display: flex; gap: 0.7rem; margin-bottom: 1.9rem; }
-        .pd-wish { border: 1px solid ${P.lineStrong}; width: 50px; display: flex; align-items: center; justify-content: center; background: none; }
+        .pd-actions { display: flex; gap: 0.7rem; margin-bottom: 1.9rem; flex-wrap: wrap; }
+        .pd-wish { border: 1px solid ${P.lineStrong}; width: 50px; display: flex; align-items: center; justify-content: center; background: none; flex-shrink: 0; }
         .pd-tabs { border-top: 1px solid ${P.line}; padding-top: 1.4rem; }
         .tab-headers { display: flex; gap: 1.6rem; margin-bottom: 1.1rem; flex-wrap: wrap; }
         .tab-header { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.03em; padding-bottom: 0.55rem; position: relative; color: ${P.ink2}; opacity: 0.55; }
@@ -1463,16 +1464,17 @@ export default function App() {
         .tab-content { color: ${P.ink2}; opacity: 0.8; font-size: 0.86rem; line-height: 1.75; max-width: 520px; }
 
         /* ---------- cart ---------- */
-        .cart-inner { max-width: 1040px; margin: 0 auto; padding: 3rem 1.75rem 5.5rem; display: grid; grid-template-columns: 1fr; gap: 2.2rem; }
+        .cart-inner { max-width: 1040px; margin: 0 auto; padding: 3rem 1.75rem 5.5rem; display: grid; grid-template-columns: 1fr; gap: 2.2rem; min-width: 0; }
         @media (min-width: 860px) { .cart-inner { grid-template-columns: 1.6fr 1fr; } }
-        .cart-row { display: flex; gap: 1.1rem; padding: 1.1rem 0; border-bottom: 1px solid ${P.line}; align-items: center; }
+        .cart-inner > * { min-width: 0; }
+        .cart-row { display: flex; gap: 1.1rem; padding: 1.1rem 0; border-bottom: 1px solid ${P.line}; align-items: center; min-width: 0; }
         .cart-thumb { width: 80px; height: 92px; flex-shrink: 0; overflow: hidden; border: 1px solid ${P.line}; }
-        .cart-row-info { flex: 1; }
-        .cart-row-info h4 { font-size: 0.88rem; font-weight: 600; margin: 0; }
+        .cart-row-info { flex: 1; min-width: 0; }
+        .cart-row-info h4 { font-size: 0.88rem; font-weight: 600; margin: 0; overflow-wrap: break-word; }
         .cart-row-meta { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: ${P.ink2}; opacity: 0.55; margin: 0.25rem 0 0.6rem; }
-        .cart-row-price { font-family: 'Bodoni Moda', serif; font-size: 1.05rem; font-weight: 500; white-space: nowrap; }
+        .cart-row-price { font-family: 'Bodoni Moda', serif; font-size: 1.05rem; font-weight: 500; white-space: nowrap; flex-shrink: 0; }
         .cart-remove { display: flex; align-items: center; gap: 0.3rem; color: ${P.ink2}; opacity: 0.6; font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; text-decoration: underline; background: none; border: none; margin-top: 0.5rem; padding: 0; }
-        .summary-box { background: ${P.paperDeep}; padding: 1.7rem; height: fit-content; }
+        .summary-box { background: ${P.paperDeep}; padding: 1.7rem; height: fit-content; min-width: 0; }
         .summary-title { font-family: 'Bodoni Moda', serif; font-size: 1.3rem; margin-bottom: 1.3rem; }
         .summary-row { display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; margin-bottom: 0.8rem; color: ${P.ink2}; }
         .summary-total { display: flex; justify-content: space-between; font-family: 'Bodoni Moda', serif; font-size: 1.3rem; font-weight: 500; padding-top: 0.9rem; border-top: 1px solid ${P.lineStrong}; margin-top: 0.5rem; }
@@ -1480,10 +1482,11 @@ export default function App() {
         /* ---------- contact ---------- */
         .contact-inner { max-width: 1040px; margin: 0 auto; padding: 3.5rem 1.75rem 5.5rem; display: grid; grid-template-columns: 1fr; gap: 2.8rem; }
         @media (min-width: 860px) { .contact-inner { grid-template-columns: 1fr 1fr; } }
+        .contact-inner > * { min-width: 0; }
         .contact-heading { font-family: 'Bodoni Moda', serif; font-size: 1.7rem; margin-bottom: 1.5rem; }
         .form-field { margin-bottom: 1.1rem; display: flex; flex-direction: column; gap: 0.45rem; }
         .form-field label { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: ${P.ink2}; opacity: 0.6; }
-        .form-field input, .form-field textarea { border: 1px solid ${P.lineStrong}; border-radius: 0; padding: 0.75rem 0.9rem; font-family: 'Inter', sans-serif; font-size: 0.88rem; outline: none; transition: border-color .25s; background: ${P.paper}; resize: vertical; }
+        .form-field input, .form-field textarea { border: 1px solid ${P.lineStrong}; border-radius: 0; padding: 0.75rem 0.9rem; font-family: 'Inter', sans-serif; font-size: 0.88rem; outline: none; transition: border-color .25s; background: ${P.paper}; resize: vertical; width: 100%; }
         .form-field input:focus, .form-field textarea:focus { border-color: ${P.ink}; }
         .contact-info-item { display: flex; gap: 0.9rem; align-items: flex-start; margin-bottom: 1.5rem; }
         .contact-info-icon { color: ${P.rani}; flex-shrink: 0; margin-top: 0.15rem; }
