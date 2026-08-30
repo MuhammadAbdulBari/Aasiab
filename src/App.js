@@ -381,16 +381,61 @@ function Navbar({ scrolled, navigate, menuOpen, setMenuOpen, cartCount, wishCoun
           </div>
         </div>
       </nav>
+
       <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
         <div className="mobile-menu-head">
-          <span className="wordmark" style={{ color: P.cream }}>Aasiab</span>
-          <button className="icon-btn" style={{ color: P.cream }} onClick={() => setMenuOpen(false)} aria-label="Close menu"><X size={22} strokeWidth={1.6} /></button>
+          <span className="wordmark" style={{ color: P.cream }} onClick={() => { navigate("home"); setMenuOpen(false); }}>Aasiab</span>
+          <button className="mm-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">
+            <X size={20} strokeWidth={1.6} />
+          </button>
         </div>
-        {NAV_LINKS.map((l, i) => (
-          <button key={l.label}  onClick={() => { navigate(l.to); setMenuOpen(false); }}><span className="mobile-menu-idx">0{i + 1}</span>{l.label}</button>
-        ))}
-        <button onClick={() => { navigate("cart"); setMenuOpen(false); }}><span className="mobile-menu-idx">0{NAV_LINKS.length + 1}</span>Bag ({cartCount})</button>
-        <button onClick={() => { navigate("wishlist"); setMenuOpen(false); }}><span className="mobile-menu-idx">0{NAV_LINKS.length + 2}</span>Wishlist ({wishCount})</button>
+
+        <nav className="mm-links">
+          {NAV_LINKS.map((l, i) => (
+            <button
+              key={l.label}
+              className="mm-link"
+              style={{ transitionDelay: menuOpen ? `${80 + i * 55}ms` : "0ms" }}
+              onClick={() => { navigate(l.to); setMenuOpen(false); }}
+            >
+              <span className="mm-link-idx">0{i + 1}</span>
+              <span className="mm-link-label">{l.label}</span>
+              <ArrowUpRight size={18} strokeWidth={1.5} className="mm-link-arrow" />
+            </button>
+          ))}
+        </nav>
+
+        <div className="mm-stitch"><StitchRule dark /></div>
+
+        <div className="mm-utility">
+          <button
+            className="mm-util-btn"
+            style={{ transitionDelay: menuOpen ? `${80 + NAV_LINKS.length * 55}ms` : "0ms" }}
+            onClick={() => { navigate("cart"); setMenuOpen(false); }}
+          >
+            <ShoppingBag size={16} strokeWidth={1.6} />
+            <span>Bag</span>
+            {cartCount > 0 && <span className="mm-util-count">{cartCount}</span>}
+          </button>
+          <button
+            className="mm-util-btn"
+            style={{ transitionDelay: menuOpen ? `${80 + (NAV_LINKS.length + 1) * 55}ms` : "0ms" }}
+            onClick={() => { navigate("wishlist"); setMenuOpen(false); }}
+          >
+            <Heart size={16} strokeWidth={1.6} />
+            <span>Wishlist</span>
+            {wishCount > 0 && <span className="mm-util-count">{wishCount}</span>}
+          </button>
+        </div>
+
+        <div className="mm-footer">
+          <div className="mm-footer-row">
+            <a href="https://instagram.com/aasiab.official" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><FaInstagram size={15} /></a>
+            <a href="https://facebook.com/aasiab.official" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><FaFacebook size={15} /></a>
+            <a href="mailto:hello@aasiab.pk" aria-label="Email"><Mail size={15} /></a>
+          </div>
+          <span className="mm-footer-meta">Karachi, Pakistan · Est. 2011</span>
+        </div>
       </div>
     </>
   );
@@ -1092,11 +1137,49 @@ export default function App() {
         .menu-toggle { display: block; }
         @media (min-width: 900px) { .nav-links { display: flex; } .menu-toggle { display: none; } }
 
-        .mobile-menu { position: fixed; inset: 0; background: ${P.ink}; z-index: 60; display: flex; flex-direction: column; padding: 2rem; transform: translateY(-100%); transition: transform .5s cubic-bezier(.19,1,.22,1); overflow-y: auto; }
+        /* ---------- mobile menu ---------- */
+        .mobile-menu { position: fixed; inset: 0; background: ${P.ink}; z-index: 60; display: flex; flex-direction: column; padding: 1.5rem 1.75rem 2rem; transform: translateY(-100%); transition: transform .5s cubic-bezier(.19,1,.22,1); overflow-y: auto; }
         .mobile-menu.open { transform: translateY(0); }
-        .mobile-menu-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; }
-        .mobile-menu a { display: flex; align-items: baseline; gap: 0.9rem; font-family: 'Bodoni Moda', serif; font-size: 2rem; font-style: italic; color: ${P.cream}; padding: 0.6rem 0; border-bottom: 1px solid ${P.lineOnDark}; }
-        .mobile-menu-idx { font-family: 'IBM Plex Mono', monospace; font-style: normal; font-size: 0.75rem; color: ${P.saffron}; }
+
+        .mobile-menu-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.2rem; padding-top: 0.4rem; }
+        .mm-close { background: none; border: 1px solid ${P.lineOnDark}; color: ${P.cream}; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; transition: all .3s cubic-bezier(.19,1,.22,1); }
+        .mm-close:hover { border-color: ${P.cream}; transform: rotate(90deg); }
+
+        .mm-links { display: flex; flex-direction: column; }
+        .mm-link {
+          display: flex; align-items: center; gap: 1rem;
+          width: 100%; background: none; border: none; border-bottom: 1px solid ${P.lineOnDark};
+          padding: 1.05rem 0; text-align: left; color: ${P.cream};
+          opacity: 0; transform: translateY(14px);
+          transition: opacity .5s cubic-bezier(.19,1,.22,1), transform .5s cubic-bezier(.19,1,.22,1), padding-left .3s ease;
+        }
+        .mobile-menu.open .mm-link { opacity: 1; transform: translateY(0); }
+        .mm-link:hover { padding-left: 0.4rem; }
+        .mm-link-idx { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: ${P.saffron}; flex-shrink: 0; width: 20px; }
+        .mm-link-label { font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 1.9rem; font-weight: 500; flex: 1; line-height: 1; }
+        .mm-link-arrow { color: rgba(246,241,230,0.35); flex-shrink: 0; transition: transform .3s cubic-bezier(.19,1,.22,1), color .3s; }
+        .mm-link:hover .mm-link-arrow { color: ${P.saffron}; transform: translate(3px,-3px); }
+
+        .mm-stitch { margin: 1.6rem 0 1.4rem; opacity: 0.5; }
+
+        .mm-utility { display: flex; gap: 0.7rem; margin-bottom: auto; }
+        .mm-util-btn {
+          position: relative; display: flex; align-items: center; gap: 0.55rem;
+          flex: 1; justify-content: center; padding: 0.85rem 1rem;
+          border: 1px solid ${P.lineOnDark}; background: none; color: ${P.cream};
+          font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase;
+          opacity: 0; transform: translateY(14px);
+          transition: opacity .5s cubic-bezier(.19,1,.22,1), transform .5s cubic-bezier(.19,1,.22,1), border-color .25s, background .25s;
+        }
+        .mobile-menu.open .mm-util-btn { opacity: 1; transform: translateY(0); }
+        .mm-util-btn:hover { border-color: ${P.saffron}; background: rgba(192,122,34,0.08); }
+        .mm-util-count { background: ${P.rani}; color: ${P.cream}; font-size: 0.62rem; min-width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0 3px; }
+
+        .mm-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 1.6rem; margin-top: 1.6rem; border-top: 1px solid ${P.lineOnDark}; flex-wrap: wrap; gap: 1rem; }
+        .mm-footer-row { display: flex; gap: 0.9rem; }
+        .mm-footer-row a { color: rgba(246,241,230,0.6); transition: color .25s; }
+        .mm-footer-row a:hover { color: ${P.saffron}; }
+        .mm-footer-meta { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.04em; color: rgba(246,241,230,0.4); }
 
         /* ---------- buttons ---------- */
         .btn { display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.95rem 1.7rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.07em; text-transform: uppercase; border-radius: 2px; border: 1px solid transparent; font-weight: 500; transition: all .3s cubic-bezier(.19,1,.22,1); }
