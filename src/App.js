@@ -1278,12 +1278,13 @@ export default function App() {
         .edit-card:hover .edit-link svg { transform: translate(3px,-3px); }
 
         /* ---------- products ---------- */
-        .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.1rem 1rem; }
-        @media (min-width: 700px) { .products-grid { grid-template-columns: repeat(3, 1fr); } }
-        @media (min-width: 1000px) { .products-grid { grid-template-columns: repeat(4, 1fr); } }
+        .products-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.1rem 1rem; }
+        @media (min-width: 700px) { .products-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+        @media (min-width: 1000px) { .products-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
         .product-card-wrap.is-feature { grid-column: span 2; }
         @media (max-width: 699px) { .product-card-wrap.is-feature { grid-column: span 2; } .product-card-wrap.is-feature .product-img { height: auto; } }
-        .product-card { cursor: pointer; }
+        .product-card-wrap { min-width: 0; }
+        .product-card { cursor: pointer; min-width: 0; }
         .product-img { position: relative; height: auto; overflow: hidden; margin-bottom: 0.8rem; border: 1px solid ${P.line}; transition: border-color .3s; }
         .product-card:hover .product-img { border-color: ${P.ink}; }
         .product-tag { position: absolute; top: 0; left: 0; background: ${P.ink}; color: ${P.cream}; font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.35rem 0.55rem; z-index: 2; }
@@ -1296,10 +1297,10 @@ export default function App() {
           .product-tag { font-size: 0.55rem; padding: 0.28rem 0.45rem; }
           .wish-btn { top: 0.4rem; right: 0.4rem; padding: 0.15rem; }
           .wish-btn svg { width: 13px; height: 13px; }
-          .product-overlay { position: static; transform: none !important; transition: none; margin-top: 0; border-top: 1px solid rgba(27,24,21,0.12); }
-          .quick-add { font-size: 0.58rem; padding: 0.55rem 0.3rem; gap: 0.25rem; letter-spacing: 0.02em; white-space: nowrap; }
-          .quick-add svg { width: 11px; height: 11px; }
-          .quick-view { width: 32px; }
+          .product-overlay { position: static; transform: none !important; transition: none; margin-top: 0; border-top: 1px solid rgba(27,24,21,0.12); min-width: 0; }
+          .quick-add { min-width: 0; font-size: 0.54rem; padding: 0.55rem 0.2rem; gap: 0.2rem; letter-spacing: 0; white-space: nowrap; overflow: hidden; text-overflow: clip; }
+          .quick-add svg { width: 10px; height: 10px; flex-shrink: 0; }
+          .quick-view { width: 30px; flex-shrink: 0; }
           .quick-view svg { width: 13px; height: 13px; }
         }
         .quick-add { flex: 1; background: ${P.ink}; color: ${P.cream}; border: none; padding: 0.65rem 0.6rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 0.35rem; transition: background .25s; }
