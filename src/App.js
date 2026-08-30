@@ -1293,9 +1293,14 @@ export default function App() {
         .product-card:hover .product-overlay { transform: translateY(0); }
         @media (max-width: 699px) {
           .product-img { overflow: visible; margin-bottom: 0.5rem; }
+          .product-tag { font-size: 0.55rem; padding: 0.28rem 0.45rem; }
+          .wish-btn { top: 0.4rem; right: 0.4rem; padding: 0.15rem; }
+          .wish-btn svg { width: 13px; height: 13px; }
           .product-overlay { position: static; transform: none !important; transition: none; margin-top: 0; border-top: 1px solid rgba(27,24,21,0.12); }
-          .quick-add { font-size: 0.6rem; padding: 0.55rem 0.4rem; }
-          .quick-view { width: 36px; }
+          .quick-add { font-size: 0.58rem; padding: 0.55rem 0.3rem; gap: 0.25rem; letter-spacing: 0.02em; white-space: nowrap; }
+          .quick-add svg { width: 11px; height: 11px; }
+          .quick-view { width: 32px; }
+          .quick-view svg { width: 13px; height: 13px; }
         }
         .quick-add { flex: 1; background: ${P.ink}; color: ${P.cream}; border: none; padding: 0.65rem 0.6rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 0.35rem; transition: background .25s; }
         .quick-add:hover { background: ${P.rani}; }
