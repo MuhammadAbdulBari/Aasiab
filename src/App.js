@@ -264,11 +264,11 @@ function ProductCard({ p, i, wishlisted, onWish, onAdd, navigate, feature = fals
             <Heart size={15} fill={wishlisted ? P.rani : "none"} color={wishlisted ? P.rani : P.cream} strokeWidth={1.75} />
           </button>
           <div className="product-overlay">
-            <button className="quick-add" onClick={(e) => { e.stopPropagation(); onAdd(p.id); }}>
-              <Plus size={13} /> Add to bag
+            <button className="quick-add" aria-label="Add to bag" onClick={(e) => { e.stopPropagation(); onAdd(p.id); }}>
+              <ShoppingBag size={16} strokeWidth={1.75} />
             </button>
             <button className="quick-view" aria-label="Quick view" onClick={(e) => { e.stopPropagation(); navigate(`product/${p.id}`); }}>
-              <Eye size={15} />
+              <Eye size={16} strokeWidth={1.75} />
             </button>
           </div>
         </Media>
@@ -1297,15 +1297,14 @@ export default function App() {
           .product-tag { font-size: 0.55rem; padding: 0.28rem 0.45rem; }
           .wish-btn { top: 0.4rem; right: 0.4rem; padding: 0.15rem; }
           .wish-btn svg { width: 13px; height: 13px; }
-          .product-overlay { position: static; transform: none !important; transition: none; margin-top: 0; border-top: 1px solid rgba(27,24,21,0.12); min-width: 0; }
-          .quick-add { min-width: 0; font-size: 0.54rem; padding: 0.55rem 0.2rem; gap: 0.2rem; letter-spacing: 0; white-space: nowrap; overflow: hidden; text-overflow: clip; }
-          .quick-add svg { width: 10px; height: 10px; flex-shrink: 0; }
-          .quick-view { width: 30px; flex-shrink: 0; }
-          .quick-view svg { width: 13px; height: 13px; }
+          .product-overlay { position: static; transform: none !important; transition: none; margin-top: 0; border-top: 1px solid rgba(27,24,21,0.12); }
+          .quick-add, .quick-view { padding: 0.6rem 0.4rem; }
+          .quick-add svg, .quick-view svg { width: 14px; height: 14px; }
         }
-        .quick-add { flex: 1; background: ${P.ink}; color: ${P.cream}; border: none; padding: 0.65rem 0.6rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 0.35rem; transition: background .25s; }
+        .quick-add { flex: 1; background: ${P.ink}; color: ${P.cream}; border: none; padding: 0.75rem 0.5rem; display: flex; align-items: center; justify-content: center; transition: background .25s; }
         .quick-add:hover { background: ${P.rani}; }
-        .quick-view { background: ${P.saffron}; color: ${P.ink}; border: none; width: 40px; display: flex; align-items: center; justify-content: center; border-left: 1px solid rgba(27,24,21,0.15); }
+        .quick-view { flex: 1; background: ${P.saffron}; color: ${P.ink}; border: none; padding: 0.75rem 0.5rem; display: flex; align-items: center; justify-content: center; border-left: 1px solid rgba(27,24,21,0.15); transition: background .25s; }
+        .quick-view:hover { background: ${P.saffronDeep}; color: ${P.cream}; }
         .product-info-row { display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; }
         .product-rating { display: flex; align-items: center; gap: 0.25rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.66rem; color: ${P.ink2}; flex-shrink: 0; }
         .product-info h4 { font-weight: 500; font-size: 0.88rem; margin: 0; line-height: 1.3; }
