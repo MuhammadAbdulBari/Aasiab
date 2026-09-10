@@ -88,6 +88,67 @@ const FARAH_1 = "design10.png", FARAH_2 = "design10.png", FARAH_3 = "design10.pn
 const ALIZEH_1 = "design11.png", ALIZEH_2 = "design11.png", ALIZEH_3 = "design11.png", ALIZEH_4 = "design11.png";
 const MEHER_1 = "design12.png", MEHER_2 = "design12.png", MEHER_3 = "design12.png", MEHER_4 = "design12.png";
 
+/* Hero slider content — each slide pairs a full-bleed look with its own
+   short pitch, echoing the three curated edits below it on the page. */
+const HERO_SLIDES = [
+  {
+    id: "bridal",
+    eyebrow: "Autumn / Winter Edit",
+    title: (<>Draped in<br /><em>heritage</em>, tailored<br />for now.</>),
+    sub: "Aasiab brings hand-finished embroidery and considered silhouettes to the modern Pakistani wardrobe — from everyday lawn to once-in-a-lifetime bridal.",
+    image: MODEL_IMG,
+    color: P.raniDeep,
+    tag: "The Bridal Edit",
+    to: "bridal",
+    ctaLabel: "Shop new arrivals",
+    ctaTo: "shop",
+    secondaryLabel: "Explore bridal",
+    secondaryTo: "bridal",
+  },
+  {
+    id: "festive",
+    eyebrow: "New This Season",
+    title: (<>Jewel tones for<br /><em>evenings</em> that<br />call for more.</>),
+    sub: "Hand-appliquéd organza and sequinned chiffon, cut for the parties that follow the wedding.",
+    image: RANIA_1,
+    color: P.indigoDeep,
+    tag: "Festive Luxe",
+    to: "shop",
+    ctaLabel: "Shop festive formals",
+    ctaTo: "shop",
+    secondaryLabel: "View all edits",
+    secondaryTo: "shop",
+  },
+  {
+    id: "lawn",
+    eyebrow: "The Everyday Edit",
+    title: (<>Quiet detail,<br /><em>worn daily</em>,<br />not just admired.</>),
+    sub: "Lawn and cotton silhouettes finished by hand — considered dressing for ordinary days in Karachi's heat.",
+    image: NOOR_1,
+    color: P.saffronDeep,
+    tag: "Everyday Elegance",
+    to: "shop",
+    ctaLabel: "Shop lawn",
+    ctaTo: "shop",
+    secondaryLabel: "View all edits",
+    secondaryTo: "shop",
+  },
+  {
+    id: "couture",
+    eyebrow: "Made to Commission",
+    title: (<>One day, worked<br /><em>entirely</em> by<br />hand.</>),
+    sub: "Every bridal ensemble is hand-embroidered by our founding tailors, first sketch to final zardozi thread.",
+    image: FARAH_1,
+    color: P.raniDeep,
+    tag: "Bridal Couture",
+    to: "bridal",
+    ctaLabel: "Book a consultation",
+    ctaTo: "contact",
+    secondaryLabel: "See the lookbook",
+    secondaryTo: "bridal",
+  },
+];
+
 const PRODUCTS = [
   { id: 1, sku: "AS-0114", name: "Noor Embroidered Lawn 3-Piece", price: 8900, tag: "Lawn", color: P.saffron, rating: 4.8, desc: "A hand-embroidered lawn three-piece in a soft sage tone, finished with delicate thread-work along the neckline and hem. Unstitched, with dupatta included.", images: [NOOR_1, NOOR_2, NOOR_3, NOOR_4] },
   { id: 2, sku: "AS-0219", name: "Zoya Chiffon Formal Suit", price: 14500, tag: "Chiffon", color: P.indigo, rating: 4.9, desc: "Flowing chiffon in deep wine, layered over a silk slip, with hand-sewn sequin detailing at the sleeves — built for evenings that matter.", images: [ZOYA_1, ZOYA_2, ZOYA_3, ZOYA_4] },
@@ -497,6 +558,111 @@ function Footer({ navigate }) {
   );
 }
 
+/* ---------------------------------- hero slider ---------------------------------- */
+const HERO_AUTOPLAY_MS = 6000;
+
+function HeroSlider({ navigate }) {
+  const total = HERO_SLIDES.length;
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const touchX = useRef(null);
+
+  const goTo = (i) => setActive(((i % total) + total) % total);
+  const next = () => goTo(active + 1);
+  const prev = () => goTo(active - 1);
+
+  useEffect(() => {
+    if (paused) return;
+    const t = setTimeout(next, HERO_AUTOPLAY_MS);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active, paused]);
+
+  const onTouchStart = (e) => { touchX.current = e.touches[0].clientX; };
+  const onTouchEnd = (e) => {
+    if (touchX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchX.current;
+    if (Math.abs(dx) > 42) (dx < 0 ? next() : prev());
+    touchX.current = null;
+  };
+
+  const slide = HERO_SLIDES[active];
+
+  return (
+    <header
+      className="hero"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+      style={{ touchAction: "pan-y" }}
+    >
+      <div className="hero-rail">
+        <span>KARACHI</span><span>·</span><span>EST. 2011</span><span>·</span><span>HAND-FINISHED</span>
+      </div>
+
+      <div className="hero-inner">
+        <div key={active} className="hero-copy hero-copy-anim">
+          <div className="eyebrow">{slide.eyebrow}</div>
+          <h1 className="hero-title">{slide.title}</h1>
+          <p className="hero-sub">{slide.sub}</p>
+          <div className="hero-ctas">
+            <button className="btn btn-primary" onClick={() => navigate(slide.ctaTo)}>{slide.ctaLabel} <ArrowRight size={15} /></button>
+            <button className="btn btn-ghost on-dark" onClick={() => navigate(slide.secondaryTo)}>{slide.secondaryLabel}</button>
+          </div>
+        </div>
+
+        <div className="hero-visual">
+          <div className="hero-slider-stage" aria-live="polite">
+            {HERO_SLIDES.map((s, i) => (
+              <Media
+                key={s.id}
+                src={s.image}
+                alt={s.tag}
+                color={s.color}
+                className={`hero-slide-media ${i === active ? "is-active" : ""}`}
+                fit="contain"
+                priority={i === 0}
+              />
+            ))}
+            <span className="hero-caption">{String(active + 1).padStart(2, "0")} — {slide.tag.toUpperCase()}</span>
+          </div>
+
+          <div className="hero-slider-controls">
+            <button className="hero-arrow" onClick={prev} aria-label="Previous slide"><ArrowLeft size={16} /></button>
+            <div className="hero-dashes" role="tablist" aria-label="Hero slides">
+              {HERO_SLIDES.map((s, i) => (
+                <button
+                  key={s.id}
+                  className={`hero-dash ${i === active ? "active" : ""}`}
+                  role="tab"
+                  aria-selected={i === active}
+                  aria-label={`Slide ${i + 1}: ${s.tag}`}
+                  onClick={() => goTo(i)}
+                >
+                  <span className="hero-dash-track">
+                    {i === active && <span key={active} className={`hero-dash-fill ${paused ? "is-paused" : ""}`} />}
+                  </span>
+                </button>
+              ))}
+            </div>
+            <button className="hero-arrow" onClick={next} aria-label="Next slide"><ArrowRight size={16} /></button>
+          </div>
+        </div>
+      </div>
+
+      <div className="facts-strip">
+        {STATS.map((s) => (
+          <div key={s.label} className="fact">
+            <span className="fact-num"><CountUp end={s.end} suffix={s.suffix} decimal={s.decimal} /></span>
+            <span className="fact-label">{s.label}</span>
+          </div>
+        ))}
+      </div>
+    </header>
+  );
+}
+
 /* ---------------------------------- pages ---------------------------------- */
 function HomePage({ navigate, wishlist, toggleWish, addToCart }) {
   const [activeT, setActiveT] = useState(0);
@@ -509,34 +675,7 @@ function HomePage({ navigate, wishlist, toggleWish, addToCart }) {
 
   return (
     <>
-      <header className="hero">
-        <div className="hero-rail">
-          <span>KARACHI</span><span>·</span><span>EST. 2011</span><span>·</span><span>HAND-FINISHED</span>
-        </div>
-        <div className="hero-inner">
-          <div className="hero-copy">
-            <div className="eyebrow">Autumn / Winter Edit</div>
-            <h1 className="hero-title">Draped in<br /><em>heritage</em>, tailored<br />for now.</h1>
-            <p className="hero-sub">Aasiab brings hand-finished embroidery and considered silhouettes to the modern Pakistani wardrobe — from everyday lawn to once-in-a-lifetime bridal.</p>
-            <div className="hero-ctas">
-              <button className="btn btn-primary" onClick={() => navigate("shop")}>Shop new arrivals <ArrowRight size={15} /></button>
-              <button className="btn btn-ghost" onClick={() => navigate("bridal")}>Explore bridal</button>
-            </div>
-          </div>
-          <div className="hero-visual">
-            <Media src={MODEL_IMG} alt="Aasiab hand-embroidered ensemble, modelled" color={P.raniDeep} className="hero-media" fit="contain" />
-            <span className="hero-caption">01 — THE BRIDAL EDIT</span>
-          </div>
-        </div>
-        <div className="facts-strip">
-          {STATS.map((s) => (
-            <div key={s.label} className="fact">
-              <span className="fact-num"><CountUp end={s.end} suffix={s.suffix} decimal={s.decimal} /></span>
-              <span className="fact-label">{s.label}</span>
-            </div>
-          ))}
-        </div>
-      </header>
+      <HeroSlider navigate={navigate} />
 
       <div className="cat-index">
         {CATEGORIES.map((c, i) => (
@@ -593,7 +732,7 @@ function HomePage({ navigate, wishlist, toggleWish, addToCart }) {
             <h2 className="craft-title">Every seam has a story worth keeping.</h2>
             <p className="craft-text">Aasiab began as a single karkhana in Karachi with three master craftsmen and a belief that everyday clothing deserved the same care as an heirloom. Fourteen years on, that belief still runs through every piece.</p>
             <p className="craft-quote">"We don't finish a garment until it could be handed down."</p>
-            <button className="btn  on-dark text-black" onClick={() => navigate("about")}>Our story <ArrowRight size={15} /></button>
+            <button className="btn btn-ghost on-dark" onClick={() => navigate("about")}>Our story <ArrowRight size={15} /></button>
           </Reveal>
         </div>
       </section>
@@ -1138,12 +1277,13 @@ export default function App() {
         .navbar.scrolled .wordmark, .navbar.scrolled .nav-link, .navbar.scrolled .icon-btn { color: ${P.ink}; }
         .navbar:not(.scrolled) .wordmark, .navbar:not(.scrolled) .nav-link, .navbar:not(.scrolled) .icon-btn { color: ${P.cream}; }
         .nav-icons { display: flex; align-items: center; gap: 1.1rem; }
-        .icon-btn { position: relative; background: none; border: none; padding: 0.3rem; transition: opacity .25s; }
+        .icon-btn { position: relative; background: none; border: none; padding: 0.55rem; display: inline-flex; align-items: center; justify-content: center; transition: opacity .25s; }
         .icon-btn:hover { opacity: 0.6; }
-        .badge { position: absolute; top: -4px; right: -6px; background: ${P.rani}; color: ${P.cream}; font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; font-weight: 500; min-width: 15px; height: 15px; padding: 0 3px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: transform .25s; }
+        .badge { position: absolute; top: -2px; right: -2px; background: ${P.rani}; color: ${P.cream}; font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; font-weight: 500; min-width: 15px; height: 15px; padding: 0 3px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: transform .25s; }
         .badge.bump { transform: scale(1.3); }
         .menu-toggle { display: block; }
         @media (min-width: 900px) { .nav-links { display: flex; } .menu-toggle { display: none; } }
+        @media (max-width: 380px) { .nav-inner { padding: 0 1.1rem; } .nav-icons { gap: 0.4rem; } .wordmark { font-size: 1.3rem; } }
 
         /* ---------- mobile menu ---------- */
         .mobile-menu { position: fixed; inset: 0; background: ${P.ink}; z-index: 60; display: flex; flex-direction: column; padding: 1.5rem 1.75rem 2rem; transform: translateY(-100%); transition: transform .5s cubic-bezier(.19,1,.22,1); overflow-y: auto; }
@@ -1241,10 +1381,30 @@ export default function App() {
         @media (min-width: 980px) { .hero-title { font-size: 4.1rem; } }
         .hero-sub { color: rgba(246,241,230,0.68); font-size: 0.98rem; line-height: 1.7; max-width: 420px; margin-bottom: 2.2rem; font-weight: 300; }
         .hero-ctas { display: flex; flex-wrap: wrap; gap: 0.9rem; }
-        .hero-visual { position: relative; min-height: 360px; }
-        @media (min-width: 980px) { .hero-visual { min-height: 100%; } }
-        .hero-media { position: absolute; inset: 0; width: 100%; height: 100%; padding: 1.4rem; }
-        .hero-caption { position: absolute; left: 1rem; bottom: 1rem; color: ${P.cream}; background: rgba(27,24,21,0.55); font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; padding: 0.5rem 0.8rem; text-transform: uppercase; }
+
+        .hero-copy-anim { animation: heroFadeUp .55s cubic-bezier(.19,1,.22,1); }
+        @keyframes heroFadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ---------- hero slider ---------- */
+        .hero-visual { position: relative; display: flex; flex-direction: column; gap: 1.1rem; }
+        .hero-slider-stage { position: relative; min-height: 340px; flex: 1; overflow: hidden; }
+        @media (min-width: 640px) { .hero-slider-stage { min-height: 420px; } }
+        @media (min-width: 980px) { .hero-slider-stage { min-height: 480px; } }
+        .hero-slide-media { position: absolute; inset: 0; width: 100%; height: 100%; padding: 1.4rem; opacity: 0; visibility: hidden; transition: opacity 1s cubic-bezier(.19,1,.22,1); }
+        .hero-slide-media.is-active { opacity: 1; visibility: visible; position: relative; z-index: 1; }
+        .hero-caption { position: absolute; left: 1rem; bottom: 1rem; color: ${P.cream}; background: rgba(27,24,21,0.55); font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; padding: 0.5rem 0.8rem; text-transform: uppercase; z-index: 2; }
+
+        .hero-slider-controls { display: flex; align-items: center; gap: 0.8rem; }
+        .hero-arrow { flex-shrink: 0; width: 38px; height: 38px; border: 1px solid ${P.lineOnDark}; background: none; color: ${P.cream}; display: flex; align-items: center; justify-content: center; transition: border-color .25s, background .25s; }
+        .hero-arrow:hover { border-color: ${P.cream}; background: rgba(246,241,230,0.08); }
+        .hero-dashes { display: flex; align-items: center; gap: 0.5rem; flex: 1; min-width: 0; }
+        .hero-dash { flex: 1; max-width: 46px; padding: 0.6rem 0; background: none; border: none; min-width: 20px; }
+        .hero-dash-track { display: block; width: 100%; height: 2px; background: rgba(246,241,230,0.25); position: relative; overflow: hidden; border-radius: 1px; }
+        .hero-dash.active .hero-dash-track { background: rgba(246,241,230,0.42); }
+        .hero-dash-fill { position: absolute; inset: 0; width: 0%; background: ${P.saffron}; animation: heroDashFill ${HERO_AUTOPLAY_MS}ms linear forwards; }
+        .hero-dash-fill.is-paused { animation-play-state: paused; }
+        @keyframes heroDashFill { from { width: 0%; } to { width: 100%; } }
+        @media (prefers-reduced-motion: reduce) { .hero-copy-anim, .hero-slide-media, .hero-dash-fill { animation: none !important; transition: none !important; } .hero-slide-media.is-active { opacity: 1 !important; visibility: visible !important; } }
 
         .facts-strip { position: relative; max-width: 1320px; margin: 0 auto; padding: 0 1.75rem 3rem; display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid ${P.lineOnDark}; }
         @media (min-width: 780px) { .facts-strip { grid-template-columns: repeat(4, 1fr); } }
@@ -1296,17 +1456,16 @@ export default function App() {
         .product-img { position: relative; height: auto; overflow: hidden; margin-bottom: 0.8rem; border: 1px solid ${P.line}; transition: border-color .3s; }
         .product-card:hover .product-img { border-color: ${P.ink}; }
         .product-tag { position: absolute; top: 0; left: 0; background: ${P.ink}; color: ${P.cream}; font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.35rem 0.55rem; z-index: 2; }
-        .wish-btn { position: absolute; top: 0.6rem; right: 0.6rem; background: none; border: none; padding: 0.2rem; z-index: 2; transition: transform .25s; }
+        .wish-btn { position: absolute; top: 0.4rem; right: 0.4rem; background: none; border: none; padding: 0; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; z-index: 2; transition: transform .25s; }
         .wish-btn:hover { transform: scale(1.12); }
         .product-overlay { position: absolute; left: 0; right: 0; bottom: 0; display: flex; transform: translateY(100%); transition: transform .35s cubic-bezier(.19,1,.22,1); z-index: 2; }
         .product-card:hover .product-overlay { transform: translateY(0); }
         @media (max-width: 699px) {
           .product-img { overflow: visible; margin-bottom: 0.5rem; }
           .product-tag { font-size: 0.55rem; padding: 0.28rem 0.45rem; }
-          .wish-btn { top: 0.4rem; right: 0.4rem; padding: 0.15rem; }
           .wish-btn svg { width: 13px; height: 13px; }
           .product-overlay { position: static; transform: none !important; transition: none; margin-top: 0; border-top: 1px solid rgba(27,24,21,0.12); }
-          .quick-add, .quick-view { padding: 0.6rem 0.4rem; }
+          .quick-add, .quick-view { padding: 0.75rem 0.4rem; min-height: 40px; }
           .quick-add svg, .quick-view svg { width: 14px; height: 14px; }
         }
         .quick-add { flex: 1; background: ${P.ink}; color: ${P.cream}; border: none; padding: 0.75rem 0.5rem; display: flex; align-items: center; justify-content: center; transition: background .25s; }
@@ -1315,7 +1474,7 @@ export default function App() {
         .quick-view:hover { background: ${P.saffronDeep}; color: ${P.cream}; }
         .product-info-row { display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; }
         .product-rating { display: flex; align-items: center; gap: 0.25rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.66rem; color: ${P.ink2}; flex-shrink: 0; }
-        .product-info h4 { font-weight: 500; font-size: 0.88rem; margin: 0; line-height: 1.3; }
+        .product-info h4 { font-weight: 500; font-size: 0.88rem; margin: 0; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .product-price { font-family: 'Bodoni Moda', serif; font-size: 1.05rem; font-weight: 500; color: ${P.ink}; margin: 0.2rem 0 0; }
         .product-sku { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; color: ${P.ink2}; opacity: 0.5; }
 
